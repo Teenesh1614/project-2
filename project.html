@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parent Login - Classic Style</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
+    body {
+      font-family: 'Libre Baskerville', serif;
+      background-color: #f5f3f0;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #4a3f35;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #4a3f35;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fdfdfd;
+      font-size: 16px;
+    }
+
+    input:focus {
+      border-color: #8e7b6a;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #8e7b6a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #756659;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .link a {
+      color: #6a5c4d;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+
+    .captcha {
+      background: #e7e4df;
+      border: 1px dashed #8e7b6a;
+      color: #5c4c3b;
+      text-align: center;
+      font-weight: bold;
+      padding: 8px;
+      border-radius: 5px;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .dashboard {
+      max-width: 700px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .card {
+      background: #fdfaf7;
+      margin: 15px 0;
+      padding: 20px;
+      border-left: 4px solid #8e7b6a;
+      border-radius: 5px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: #4a3f35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Form -->
+  <div class="container" id="loginForm">
+    <h2>Parent Login</h2>
+    <form onsubmit="showDashboard(event)">
+      <label for="parentId">Parent ID (Email)</label>
+      <input type="text" id="parentId" required placeholder="Enter Parent Email">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required placeholder="Enter Password">
+
+      <label>CAPTCHA</label>
+      <div class="captcha">B7F4C</div>
+      <input type="text" required placeholder="Enter CAPTCHA">
+
+      <button type="submit">Login</button>
+
+      <div class="link">
+        <a href="#" onclick="showForgotPassword()">Forgot Password?</a> |
+        <a href="#" onclick="toggleForm()">Register</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Registration Form -->
+  <div class="container hidden" id="registerForm">
+    <h2>Register Parent</h2>
+    <form onsubmit="handleRegister(event)">
+      <label>Parent Name</label>
+      <input type="text" required>
+
+      <label>Email</label>
+      <input type="email" required>
+
+      <label>Password</label>
+      <input type="password" required>
+
+      <h3>Student Details</h3>
+      <label>Student Name</label>
+      <input type="text" required>
+
+      <label>Department</label>
+      <input type="text" required>
+
+      <label>Year</label>
+      <input type="text" placeholder="e.g. Second Year" required>
+
+      <label>Roll Number</label>
+      <input type="text" required>
+
+      <label>Section</label>
+      <input type="text">
+
+      <label>Date of Birth</label>
+      <input type="text" placeholder="DD-MM-YYYY" required>
+
+      <button type="submit">Register</button>
+      <div class="link"><a href="#" onclick="toggleForm()">Back to Login</a></div>
+    </form>
+  </div>
+
+  <!-- Forgot Password Form -->
+  <div class="container hidden" id="forgotForm">
+    <h2>Reset Password</h2>
+    <form onsubmit="resetPassword(event)">
+      <label>Email</label>
+      <input type="email" id="resetEmail" placeholder="Enter registered email" required>
+
+      <button type="submit">Send Reset Link</button>
+      <div class="link">
+        <a href="#" onclick="showLoginFromForgot()">Back to Login</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard hidden" id="dashboard">
+    <h2>Student Dashboard</h2>
+
+    <div class="card">
+      <h3>Student Name</h3>
+      <p id="studentName">John Doe</p>
+    </div>
+
+    <div class="card">
+      <h3>Department</h3>
+      <p id="department">Computer Science</p>
+    </div>
+
+    <div class="card">
+      <h3>Year</h3>
+      <p id="year">Second Year</p>
+    </div>
+
+    <div class="card">
+      <h3>Attendance</h3>
+      <p id="attendance">92%</p>
+    </div>
+
+    <div class="link">
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </div>
+
+  <script>
+    let registeredUsers = JSON.parse(localStorage.getItem("parents")) || [];
+
+    function toggleForm() {
+      document.getElementById("loginForm").classList.toggle("hidden");
+      document.getElementById("registerForm").classList.toggle("hidden");
+    }
+
+    function showForgotPassword() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("forgotForm").classList.remove("hidden");
+    }
+
+    function showLoginFromForgot() {
+      document.getElementById("forgotForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    function resetPassword(event) {
+      event.preventDefault();
+      const email = document.getElementById("resetEmail").value;
+      const user = registeredUsers.find(u => u.email === email);
+      if (user) {
+        alert(`A password reset link has been sent to ${email}`);
+      } else {
+        alert("Email not found.");
+      }
+      showLoginFromForgot();
+    }
+
+    function handleRegister(event) {
+      event.preventDefault();
+
+      const parentName = event.target[0].value;
+      const email = event.target[1].value;
+      const password = event.target[2].value;
+
+      const studentName = event.target[3].value;
+      const department = event.target[4].value;
+      const year = event.target[5].value;
+      const roll = event.target[6].value;
+      const section = event.target[7].value;
+      const dob = event.target[8].value;
+
+      const newUser = {
+        email,
+        password,
+        parentName,
+        student: {
+          studentName,
+          department,
+          year,
+          roll,
+          section,
+          dob,
+          attendance: `${Math.floor(Math.random() * 11) + 90}%`
+        }
+      };
+
+      registeredUsers.push(newUser);
+      localStorage.setItem("parents", JSON.stringify(registeredUsers));
+
+      alert("Registered Successfully!");
+      toggleForm();
+    }
+
+    function showDashboard(e) {
+      e.preventDefault();
+      const enteredEmail = document.getElementById("parentId").value;
+      const enteredPassword = document.getElementById("password").value;
+
+      const user = registeredUsers.find(
+        u => u.email === enteredEmail && u.password === enteredPassword
+      );
+
+      if (user) {
+        document.getElementById("studentName").textContent = user.student.studentName;
+        document.getElementById("department").textContent = user.student.department;
+        document.getElementById("year").textContent = user.student.year;
+        document.getElementById("attendance").textContent = user.student.attendance;
+
+        document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+      } else {
+        alert("Invalid credentials!");
+      }
+    }
+
+    function logout() {
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+      document.getElementById("parentId").value = '';
+      document.getElementById("password").value = '';
+    }
+  </script>
+
+</body>
+</html>
